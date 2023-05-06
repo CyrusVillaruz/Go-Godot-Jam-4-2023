@@ -1,0 +1,33 @@
+[gd_scene load_steps=3 format=3 uid="uid://dm1jmimqa30wv"]
+
+[ext_resource type="Script" path="res://Scripts/Enemy.cs" id="1_ghx8g"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yte3g"]
+load_path = "res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"
+
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("healthLabel")]
+collision_layer = 2
+motion_mode = 1
+script = ExtResource("1_ghx8g")
+healthLabel = NodePath("Health")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture = SubResource("CompressedTexture2D_yte3g")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+polygon = PackedVector2Array(64, -60.8, 64, 59, 59.6, 64, -60.1, 64, -64, 60.7, -64, -59, -59, -63.8, 59.1, -64)
+
+[node name="Health" type="Label" parent="."]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -129.0
+offset_right = 32.0
+offset_bottom = -103.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Health"
+horizontal_alignment = 1

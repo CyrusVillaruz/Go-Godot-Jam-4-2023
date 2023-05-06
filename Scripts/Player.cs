@@ -5,23 +5,21 @@ public partial class Player : Character
 {
     [Export] Label stateLabel; //temp for debugging
 
-    
-    /// <summary>returns true if character is allowed to enter walking state</summary>
-    bool canWalk() {return currentState == State.idle || currentState == State.walking;}
+    public override void _Ready() {
+        // CONSTANTS
+        walkSpeed = 300.0f;
+        dashSpeed = 1800.0f;
+        dashTime = 0.2f;
+        maxHealth = 10;
 
-    /// <summary>returns true if character is allowed to enter dashing state</summary>
-    bool canDash() {return currentState == State.idle || currentState == State.walking;}
+        // VARYING
+        health = maxHealth;
 
-    /// <summary>performs idle state actions</summary>
-    void updateIdleState(float dt) {
-        Velocity = Vector2.Zero;
+        base._Ready();
     }
-    /// <summary>performs walking state actions</summary>
-    void updateWalkingState(float dt) {
-        Velocity = currentDirection * walkSpeed;
-    }
+
     /// <summary>performs dashing state actions</summary>
-    void updateDashingState(float dt) {
+    protected override void updateDashingState(float dt) {
         Velocity = currentDirection * Mathf.Lerp(walkSpeed, dashSpeed, currentActionTimer/dashTime);
 
         currentActionTimer -= dt;
@@ -30,7 +28,7 @@ public partial class Player : Character
         }
     }
     /// <summary>performs casting state actions</summary>
-    void updateCastingState(float dt) {}
+    protected override void updateCastingState(float dt) {}
 
 
 	public override void _PhysicsProcess(double delta)
@@ -54,21 +52,8 @@ public partial class Player : Character
             currentActionTimer = dashTime;
         }
 
-        // perform current state actions
-        switch (currentState) {
-            case State.idle:
-                updateIdleState(dt);
-                break;
-            case State.walking:
-                updateWalkingState(dt);
-                break;
-            case State.dashing:
-                updateDashingState(dt);
-                break;
-            case State.casting:
-                updateCastingState(dt);
-                break;
-        }
+        performStateActions(dt);
+
         // update state label (for debugging)
         stateLabel.Text = currentState.ToString(); 
 
