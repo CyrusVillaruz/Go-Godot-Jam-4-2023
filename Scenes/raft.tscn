@@ -1,10 +1,21 @@
-[gd_scene load_steps=2 format=3 uid="uid://0oucy5cggxia"]
+[gd_scene load_steps=4 format=3 uid="uid://0oucy5cggxia"]
+
+[ext_resource type="Texture2D" uid="uid://bsuj3buw25fpq" path="res://Sprites/Sprout Lands - UI Pack/Sprite sheets/Setting menu.png" id="1_8oyxc"]
+[ext_resource type="Script" path="res://Scripts/Raft/raft.gd" id="1_bvy2e"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_e1g8l"]
+size = Vector2(104, 120)
 
 [node name="Raft" type="StaticBody2D"]
+collision_layer = 0
+collision_mask = 0
+script = ExtResource("1_bvy2e")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
+texture = ExtResource("1_8oyxc")
+hframes = 2
+frame = 1
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0, 1)
 shape = SubResource("RectangleShape2D_e1g8l")
