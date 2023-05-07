@@ -4,8 +4,10 @@ using System;
 public partial class Player : Character
 {
     [Export] Label stateLabel; //temp for debugging
+    [Export] Node2D raft;
 
     Vector2 lookDirection;
+    bool buildMode = false;
 
     public override void _Ready() {
         // CONSTANTS
@@ -32,7 +34,7 @@ public partial class Player : Character
     /// <summary>performs casting state actions</summary>
     protected override void updateCastingState(float dt) {
         Velocity = lookDirection * Mathf.Lerp(walkSpeed, currentStateDashSpeed, currentStateTimer/currentStateDuration);
-
+        
         currentStateTimer -= dt;
         if (currentStateTimer <= 0) {
             currentState = State.idle;
@@ -44,6 +46,8 @@ public partial class Player : Character
 	{
         float dt = (float) delta;
         
+        // GD.Print(Position);
+
         if (currentState != State.casting) {
             lookDirection = (GetGlobalMousePosition() - Position).Normalized();
             primaryWeapon.Rotation = lookDirection.Angle() + Mathf.Pi/2;
@@ -72,6 +76,15 @@ public partial class Player : Character
             currentStateDuration = (float) primaryWeapon.Get("animationTime");
             currentStateTimer = currentStateDuration;
             currentStateDashSpeed = (float) primaryWeapon.Get("attackDashSpeed");
+        }
+
+        if (Input.IsActionJustPressed("ToggleBuild")) {
+            raft.Call("ToggleBuild");
+            buildMode = !buildMode;
+        }
+
+        if (buildMode && Input.IsActionJustPressed("PlaceTile")) {
+            raft.Call("PlaceTile");
         }
 
         performStateActions(dt);
