@@ -1,12 +1,14 @@
-[gd_scene load_steps=4 format=3 uid="uid://cc7sglxh2vr3v"]
+[gd_scene load_steps=5 format=3 uid="uid://cc7sglxh2vr3v"]
 
 [ext_resource type="Texture2D" uid="uid://oemka8jbd4uo" path="res://Sprites/Sprout Lands - UI Pack/Sprite sheets/Cards.png" id="1_1koav"]
 [ext_resource type="Texture2D" uid="uid://byvidi0wio4nm" path="res://Sprites/Sprout Lands - UI Pack/Sprite sheets/cardscreen.png" id="2_3bujw"]
 [ext_resource type="FontFile" uid="uid://d12bo1us4o6w2" path="res://Font/VCR_OSD_MONO_1.001.ttf" id="3_n3h1a"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_7x28q"]
+size = Vector2(105.75, 121.25)
+
 [node name="Cards" type="Sprite2D"]
 position = Vector2(248, 416)
-scale = Vector2(4, 4)
 texture = ExtResource("1_1koav")
 
 [node name="Image" type="Sprite2D" parent="."]
@@ -24,19 +26,25 @@ theme_override_fonts/font = ExtResource("3_n3h1a")
 text = "Image "
 
 [node name="Less" type="Label" parent="Image"]
-offset_left = -45.6844
-offset_top = 34.5381
-offset_right = -5.68438
-offset_bottom = 57.5381
+offset_left = -44.8
+offset_top = 31.0857
+offset_right = -4.8
+offset_bottom = 54.0857
 theme_override_fonts/font = ExtResource("3_n3h1a")
 theme_override_font_sizes/font_size = 12
 text = "Less"
 
-[node name="Label2" type="Label" parent="Image"]
-offset_left = -45.4524
-offset_top = 58.4309
-offset_right = -5.45241
-offset_bottom = 81.4309
+[node name="More" type="Label" parent="Image"]
+offset_left = -44.8
+offset_top = 58.5143
+offset_right = -4.8
+offset_bottom = 81.5143
 theme_override_fonts/font = ExtResource("3_n3h1a")
 theme_override_font_sizes/font_size = 12
 text = "More"
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-0.125, 0.625)
+shape = SubResource("RectangleShape2D_7x28q")
