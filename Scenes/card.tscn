@@ -1,0 +1,133 @@
+[gd_scene load_steps=7 format=3 uid="uid://fmbbqux0donl"]
+
+[ext_resource type="Texture2D" uid="uid://oemka8jbd4uo" path="res://Sprites/Sprout Lands - UI Pack/Sprite sheets/Cards.png" id="1_1koav"]
+[ext_resource type="Texture2D" uid="uid://byvidi0wio4nm" path="res://Sprites/Sprout Lands - UI Pack/Sprite sheets/cardscreen.png" id="2_3bujw"]
+[ext_resource type="FontFile" uid="uid://d12bo1us4o6w2" path="res://Font/VCR_OSD_MONO_1.001.ttf" id="3_n3h1a"]
+
+[sub_resource type="Animation" id="Animation_8cap5"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cards/Image:z_index")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [-1]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cards:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(251, -138)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Cards:scale")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(4, 4)]
+}
+
+[sub_resource type="Animation" id="Animation_jn7p7"]
+resource_name = "flip"
+step = 0.01
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Cards:position")
+tracks/0/interp = 2
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.2, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(251, -138), Vector2(248, 192), Vector2(248, 416)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Cards:scale")
+tracks/1/interp = 2
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0.5, 0.7, 0.9),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(4, 4), Vector2(0.4, 4), Vector2(4, 4)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Cards/Image:z_index")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.72),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [-1, 1]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_b35dy"]
+_data = {
+"RESET": SubResource("Animation_8cap5"),
+"flip": SubResource("Animation_jn7p7")
+}
+
+[node name="Cards" type="Sprite2D"]
+position = Vector2(248, 416)
+scale = Vector2(4, 4)
+texture = ExtResource("1_1koav")
+
+[node name="Image" type="Sprite2D" parent="."]
+z_index = 1
+position = Vector2(1, -36)
+scale = Vector2(1.09375, 1.09375)
+texture = ExtResource("2_3bujw")
+
+[node name="Label" type="Label" parent="Image"]
+offset_left = -23.1833
+offset_top = -9.76808
+offset_right = 33.8167
+offset_bottom = 16.2319
+theme_override_fonts/font = ExtResource("3_n3h1a")
+text = "Image "
+
+[node name="Less" type="Label" parent="Image"]
+offset_left = -45.6844
+offset_top = 34.5381
+offset_right = -5.68438
+offset_bottom = 57.5381
+theme_override_fonts/font = ExtResource("3_n3h1a")
+theme_override_font_sizes/font_size = 12
+text = "Less"
+
+[node name="Label2" type="Label" parent="Image"]
+offset_left = -45.4524
+offset_top = 58.4309
+offset_right = -5.45241
+offset_bottom = 81.4309
+theme_override_fonts/font = ExtResource("3_n3h1a")
+theme_override_font_sizes/font_size = 12
+text = "More"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../..")
+libraries = {
+"": SubResource("AnimationLibrary_b35dy")
+}
