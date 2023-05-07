@@ -7,13 +7,15 @@ public partial class Enemy : Character
 
 	float primaryAttackRange = 50;
 
-	public override void _Ready() {
-		// CONSTANTS
-		//PlayerBody = GetNode<CharacterBody2D>("/root/Player");
-		walkSpeed = 200.0f;
-		dashSpeed = 1800.0f;
-		dashTime = 0.2f;
-		maxHealth = 10;
+
+    public override void _Ready() {
+        // CONSTANTS
+        //PlayerBody = GetNode<CharacterBody2D>("/root/Player");
+        walkSpeed = 200.0f;
+        dashSpeed = 1800.0f;
+        dashDuration = 0.2f;
+        maxHealth = 10;
+
 
 		// VARYING
 		health = maxHealth;
@@ -44,4 +46,5 @@ public partial class Enemy : Character
 
 		MoveAndSlide();
 	}
+
 }

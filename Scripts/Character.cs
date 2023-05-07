@@ -4,20 +4,24 @@ using System;
 public partial class Character : CharacterBody2D
 {
     // possible player states
-    protected enum State {idle, walking, dashing, casting} 
+    protected enum State {idle, walking, dashing, casting, knockback} 
 
     // CONSTANTS
     [Export] Label healthLabel;
 	protected float walkSpeed;
 	protected float dashSpeed;
-    protected float dashTime;
+    protected float dashDuration;
     protected float maxHealth;
 
     // VARYING
+    [Export] protected Node2D primaryWeapon;
     protected Vector2 currentDirection = Vector2.Zero;
     protected State currentState = State.idle;
-    protected float currentActionTimer = 0; // time remaining for current state (used by dashing, casting, etc)
+    protected float currentStateTimer = 0; // time remaining for current state (used by dashing, casting, etc)
     protected float health;
+    protected Vector2 currentStateDashDirection = Vector2.Zero;
+    protected float currentStateDashSpeed = 0;
+    protected float currentStateDuration;
 
     public override void _Ready() {
         updateHealthLabel();
@@ -44,6 +48,15 @@ public partial class Character : CharacterBody2D
     /// <summary>performs casting state actions</summary>
     protected virtual void updateCastingState(float dt) {}
 
+    protected virtual void updateKnockbackState(float dt) {
+        Velocity = currentStateDashDirection * Mathf.Lerp(walkSpeed, currentStateDashSpeed, currentStateTimer/currentStateDuration);
+
+        currentStateTimer -= dt;
+        if (currentStateTimer <= 0) {
+            currentState = State.idle;
+        }
+    }
+
     protected void performStateActions(float dt) {
         // perform current state actions
         switch (currentState) {
@@ -59,6 +72,9 @@ public partial class Character : CharacterBody2D
             case State.casting:
                 updateCastingState(dt);
                 break;
+            case State.knockback:
+                updateKnockbackState(dt);
+                break;
         }
     }
 
@@ -66,16 +82,24 @@ public partial class Character : CharacterBody2D
         healthLabel.Text = health + "/" + maxHealth + "HP";
     }
 
-    void onDamaged(float damage) {
+    void onHit(float damage, Vector2 knockbackDirection, float knockbackSpeed=0, float knockbackDuration=0) {
         health -= damage;
         if (health <= 0) {
             onDeath();
         }
         updateHealthLabel();
+
+        if (knockbackDuration != 0) {
+            currentState = State.knockback;
+            currentStateTimer = knockbackDuration;
+            currentStateDuration = knockbackDuration;
+            currentStateDashSpeed = knockbackSpeed;
+            currentStateDashDirection = knockbackDirection;
+        }
     }
 
     void onDeath() {
-        OS.Alert("You died. Game Over");
+        QueueFree();
     }
 
     

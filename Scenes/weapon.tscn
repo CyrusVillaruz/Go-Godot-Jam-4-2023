@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://bhiiqw7ehgb5p"]
+
+[ext_resource type="Script" path="res://Scripts/WeaponBody.cs" id="2_cj7rs"]
+[ext_resource type="Texture2D" uid="uid://bvqjb6hpf1es0" path="res://Sprites/sword.png" id="3_4afep"]
+
+[node name="Weapon" type="Node2D" node_paths=PackedStringArray("hitbox", "weaponBody")]
+script = ExtResource("2_cj7rs")
+hitbox = NodePath("WeaponBody/Area2D/CollisionPolygon2D")
+weaponBody = NodePath("WeaponBody")
+
+[node name="WeaponBody" type="Node2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="WeaponBody"]
+scale = Vector2(0.922045, 1)
+texture = ExtResource("3_4afep")
+offset = Vector2(0, -60)
+
+[node name="Area2D" type="Area2D" parent="WeaponBody"]
+collision_layer = 8
+collision_mask = 2
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="WeaponBody/Area2D"]
+position = Vector2(0, -60)
+scale = Vector2(0.922045, 1)
+polygon = PackedVector2Array(23, 66.5, -23, 66.5, -23, -66.5, 23, -66.5)
+disabled = true
+
+[connection signal="body_entered" from="WeaponBody/Area2D" to="." method="_OnBodyEntered"]
