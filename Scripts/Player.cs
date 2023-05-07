@@ -6,6 +6,7 @@ public partial class Player : Character
     [Export] Label stateLabel; //temp for debugging
     [Export] Node2D raft;
 
+
     Vector2 lookDirection;
     bool buildMode = false;
 
@@ -16,11 +17,12 @@ public partial class Player : Character
         dashDuration = 0.2f;
         maxHealth = 10;
 
-        // VARYING
-        health = maxHealth;
+		// VARYING
+		health = maxHealth;
 
-        base._Ready();
-    }
+		base._Ready();
+	}
+
 
     /// <summary>performs dashing state actions</summary>
     protected override void updateDashingState(float dt) {
@@ -42,8 +44,10 @@ public partial class Player : Character
     }
 
 
+
 	public override void _PhysicsProcess(double delta)
 	{
+
         float dt = (float) delta;
         
         // GD.Print(Position);
@@ -89,8 +93,8 @@ public partial class Player : Character
 
         performStateActions(dt);
 
-        // update state label (for debugging)
-        stateLabel.Text = currentState.ToString(); 
+		// update state label (for debugging)
+		stateLabel.Text = currentState.ToString(); 
 
 		MoveAndSlide();
 	}
