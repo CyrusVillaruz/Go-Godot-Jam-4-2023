@@ -9,11 +9,16 @@ extends Node
 @onready var pick = $Pick
 
 var pause_state = false
+var allow_click = false
 # Called when the node enters the scene tree for the first time.
 func _ready():
+	card1.click.connect(unpause)
+	card2.click.connect(unpause)
+	card3.click.connect(unpause)
 	unpause()
 
 func unpause():
+	animate.stop(true)
 	pause_state = false
 	get_tree().paused = pause_state
 	card1.visible = pause_state
@@ -37,3 +42,4 @@ func _input(event):
 
 func _on_animation_player_animation_finished(anim_name):
 	pick.visible = true
+	

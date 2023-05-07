@@ -1,27 +1,9 @@
-extends Node
+extends Sprite2D
 
-@onready var card1 = $Card1
-@onready var card2 = $Card2
-@onready var card3 = $Card3
-@export var mouse_ent : Color
-@export var mouse_exit : Color
+signal click
 
-
-
-func card3_enter():
-	card3.modulate.a = 0.5
-
-func card2_enter():
-	card2.modulate.a = 0.5
-
-func card_enter():
-	card1.modulate.a = 0.5
-
-func card_exit():
-	card1.modulate.a = 1
-
-func card3_exit():
-	card3.modulate.a = 1
-
-func card2_exit():
-	card2.modulate.a = 1
+func _input(event):
+	if event.is_action("Attack"):
+		if get_rect().has_point(to_local(event.position)):
+			print("123")
+			emit_signal("click")

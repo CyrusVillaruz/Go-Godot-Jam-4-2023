@@ -1,15 +1,17 @@
-[gd_scene load_steps=5 format=3 uid="uid://cc7sglxh2vr3v"]
+[gd_scene load_steps=6 format=3 uid="uid://cc7sglxh2vr3v"]
 
 [ext_resource type="Texture2D" uid="uid://oemka8jbd4uo" path="res://Sprites/Sprout Lands - UI Pack/Sprite sheets/Cards.png" id="1_1koav"]
 [ext_resource type="Texture2D" uid="uid://byvidi0wio4nm" path="res://Sprites/Sprout Lands - UI Pack/Sprite sheets/cardscreen.png" id="2_3bujw"]
+[ext_resource type="Script" path="res://Scripts/card.gd" id="2_tmkg2"]
 [ext_resource type="FontFile" uid="uid://d12bo1us4o6w2" path="res://Font/VCR_OSD_MONO_1.001.ttf" id="3_n3h1a"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_7x28q"]
 size = Vector2(105.75, 121.25)
 
 [node name="Cards" type="Sprite2D"]
-position = Vector2(248, 416)
+position = Vector2(-1156, -664)
 texture = ExtResource("1_1koav")
+script = ExtResource("2_tmkg2")
 
 [node name="Image" type="Sprite2D" parent="."]
 z_index = 1
