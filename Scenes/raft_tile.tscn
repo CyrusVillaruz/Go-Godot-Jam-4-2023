@@ -1,0 +1,9 @@
+[gd_scene load_steps=2 format=3 uid="uid://b6ko5jrj2p3ly"]
+
+[ext_resource type="Texture2D" uid="uid://cb5087qq8agpm" path="res://Sprites/Milk.png" id="1_fny6h"]
+
+[node name="raftTile" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.3, 0.3)
+texture = ExtResource("1_fny6h")

@@ -1,0 +1,22 @@
+[gd_scene load_steps=3 format=3 uid="uid://cnjnybe3bwt3d"]
+
+[ext_resource type="Script" path="res://Scripts/RaftFloorTile.cs" id="1_sk3rn"]
+[ext_resource type="Texture2D" uid="uid://cw45ramplo6wt" path="res://Sprites/floorTile.png" id="2_y1mpn"]
+
+[node name="RaftFloorTile" type="Node2D" node_paths=PackedStringArray("sprite")]
+script = ExtResource("1_sk3rn")
+sprite = NodePath("Sprite2D")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 0
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+rotation = 1.56905
+scale = Vector2(1, 1)
+polygon = PackedVector2Array(50, 50, -50, 50, -50, -50, 50, -50)
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+rotation = 1.5708
+scale = Vector2(1, 1)
+texture = ExtResource("2_y1mpn")
