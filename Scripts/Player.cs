@@ -5,11 +5,13 @@ public partial class Player : Character
 {
     [Export] Label stateLabel; //temp for debugging
 
+    Vector2 lookDirection;
+
     public override void _Ready() {
         // CONSTANTS
         walkSpeed = 300.0f;
         dashSpeed = 1800.0f;
-        dashTime = 0.2f;
+        dashDuration = 0.2f;
         maxHealth = 10;
 
         // VARYING
@@ -20,21 +22,33 @@ public partial class Player : Character
 
     /// <summary>performs dashing state actions</summary>
     protected override void updateDashingState(float dt) {
-        Velocity = currentDirection * Mathf.Lerp(walkSpeed, dashSpeed, currentActionTimer/dashTime);
+        Velocity = currentDirection * Mathf.Lerp(walkSpeed, dashSpeed, currentStateTimer/dashDuration);
 
-        currentActionTimer -= dt;
-        if (currentActionTimer <= 0) {
+        currentStateTimer -= dt;
+        if (currentStateTimer <= 0) {
             currentState = State.idle;
         }
     }
     /// <summary>performs casting state actions</summary>
-    protected override void updateCastingState(float dt) {}
+    protected override void updateCastingState(float dt) {
+        Velocity = lookDirection * Mathf.Lerp(walkSpeed, currentStateDashSpeed, currentStateTimer/currentStateDuration);
+
+        currentStateTimer -= dt;
+        if (currentStateTimer <= 0) {
+            currentState = State.idle;
+        }
+    }
 
 
 	public override void _PhysicsProcess(double delta)
 	{
         float dt = (float) delta;
         
+        if (currentState != State.casting) {
+            lookDirection = (GetGlobalMousePosition() - Position).Normalized();
+            primaryWeapon.Rotation = lookDirection.Angle() + Mathf.Pi/2;
+        }
+
         // Update movement direction
         Vector2 inputDirection = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
         if (canWalk()) {
@@ -49,7 +63,15 @@ public partial class Player : Character
 
 		if (canDash() && Input.IsActionJustPressed("Dash")) {
             currentState = State.dashing;
-            currentActionTimer = dashTime;
+            currentStateTimer = dashDuration;
+        }
+
+        if (canPrimaryAttack() && Input.IsActionJustPressed("Attack")) {
+            primaryWeapon.Call("StartAttack");
+            currentState = State.casting;
+            currentStateDuration = (float) primaryWeapon.Get("animationTime");
+            currentStateTimer = currentStateDuration;
+            currentStateDashSpeed = (float) primaryWeapon.Get("attackDashSpeed");
         }
 
         performStateActions(dt);
