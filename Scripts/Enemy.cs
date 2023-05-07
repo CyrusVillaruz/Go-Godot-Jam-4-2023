@@ -12,7 +12,7 @@ public partial class Enemy : Character
         //PlayerBody = GetNode<CharacterBody2D>("/root/Player");
         walkSpeed = 200.0f;
         dashSpeed = 1800.0f;
-        dashTime = 0.2f;
+        dashDuration = 0.2f;
         maxHealth = 10;
 
         // VARYING
@@ -44,4 +44,5 @@ public partial class Enemy : Character
 
 		MoveAndSlide();
 	}
+
 }

@@ -1,13 +1,26 @@
-[gd_scene load_steps=3 format=3 uid="uid://cfir6upd6mwf2"]
+[gd_scene load_steps=5 format=3 uid="uid://cfir6upd6mwf2"]
 
 [ext_resource type="PackedScene" uid="uid://cqe3d4c5tvn5s" path="res://Scenes/player.tscn" id="1_6gasb"]
 [ext_resource type="PackedScene" uid="uid://dm1jmimqa30wv" path="res://Scenes/enemy.tscn" id="2_spov4"]
+[ext_resource type="Script" path="res://Scenes/MainCamera.cs" id="3_nbktf"]
+[ext_resource type="Texture2D" uid="uid://2voxqj382ig1" path="res://Sprites/background.png" id="4_kueys"]
 
 [node name="Node2D" type="Node2D"]
 
+[node name="background" type="Sprite2D" parent="."]
+scale = Vector2(10, 10)
+texture = ExtResource("4_kueys")
+
 [node name="Player" parent="." instance=ExtResource("1_6gasb")]
-position = Vector2(687, 380)
+position = Vector2(169, 26)
 
 [node name="Enemy" parent="." node_paths=PackedStringArray("PlayerBody") instance=ExtResource("2_spov4")]
-position = Vector2(324, 301)
+position = Vector2(-194, -53)
 PlayerBody = NodePath("../Player")
+
+[node name="MainCamera" type="Camera2D" parent="." node_paths=PackedStringArray("playerBody")]
+position = Vector2(169, 26)
+zoom = Vector2(0.75, 0.75)
+position_smoothing_speed = 3.0
+script = ExtResource("3_nbktf")
+playerBody = NodePath("../Player")
