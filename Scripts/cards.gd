@@ -18,6 +18,7 @@ func _ready():
 	unpause()
 
 func unpause():
+	print("123")
 	animate.stop(true)
 	pause_state = false
 	get_tree().paused = pause_state
