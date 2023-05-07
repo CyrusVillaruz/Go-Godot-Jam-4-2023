@@ -1,15 +1,16 @@
 [gd_scene load_steps=3 format=3 uid="uid://dcmaoeaosiv7k"]
 
-[ext_resource type="TextFile" path="res://Scripts/Enemy.cs" id="1_ghx8g"]
+[ext_resource type="Script" path="res://Scripts/Enemy.cs" id="1_mjj5w"]
 
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yte3g"]
 load_path = "res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"
 
-[node name="Enemy" type="CharacterBody2D"]
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("healthLabel")]
 collision_layer = 2
 collision_mask = 7
 motion_mode = 1
-script = ExtResource("1_ghx8g")
+script = ExtResource("1_mjj5w")
+healthLabel = NodePath("Health")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 texture = SubResource("CompressedTexture2D_yte3g")
