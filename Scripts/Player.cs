@@ -43,11 +43,12 @@ public partial class Player : Character
         }
     }
 
-
+    protected override void onDeath() {
+        OS.Alert("You Died");
+    }
 
 	public override void _PhysicsProcess(double delta)
 	{
-
         float dt = (float) delta;
         
         // GD.Print(Position);

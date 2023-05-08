@@ -98,7 +98,7 @@ public partial class Character : CharacterBody2D
         }
     }
 
-    void onDeath() {
+    protected virtual void onDeath() {
         QueueFree();
     }
 
