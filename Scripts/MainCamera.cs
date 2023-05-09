@@ -6,8 +6,9 @@ public partial class MainCamera : Camera2D
     // CONSTANT
     [Export] CharacterBody2D playerBody;
     float maxSpeed = 2000;
-    float minSpeed = 0f;
+    float minSpeed = 10f;
     float maxDistance = 1000;
+    const float minPositionChange = 11;
 
 	// Called when the node enters the scene tree for the first time.
 	public override void _Ready()
@@ -20,6 +21,12 @@ public partial class MainCamera : Camera2D
         float playerDistance = (playerBody.Position - Position).Length();
         Vector2 playerDirection = (playerBody.Position - Position).Normalized();
 
-        Position += playerDirection * Mathf.Lerp(minSpeed, maxSpeed, playerDistance/maxDistance) * dt;
+        Vector2 positionChange = playerDirection * Mathf.Lerp(minSpeed, maxSpeed, playerDistance/maxDistance) * dt;
+        if (positionChange.Length() >= minPositionChange*dt) {
+            Position += positionChange;
+        }
+        else {
+            Position = playerBody.Position;
+        }
 	}
 }
