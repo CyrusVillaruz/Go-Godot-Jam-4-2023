@@ -110,7 +110,6 @@ public partial class EnemySpawner : Node
         float dt = (float) delta;
 
         if (waveLabelFadeTimer > 0) {
-            GD.Print(waveLabel.Modulate);
             waveLabel.Modulate = new Color(waveLabel.Modulate, Mathf.Lerp(0, 1, waveLabelFadeTimer*2/waveLabelFadeDuration));
             waveLabelFadeTimer -= dt;
             if (waveLabelFadeTimer <= 0) {
