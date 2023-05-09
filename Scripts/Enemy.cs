@@ -26,6 +26,8 @@ public partial class Enemy : Character
 
 	public override void _PhysicsProcess(double delta)
 	{
+        if (PlayerBody == null) {return;}
+
 		float dt = (float)delta;
 
 		float playerDistance = (PlayerBody.Position - Position).Length();

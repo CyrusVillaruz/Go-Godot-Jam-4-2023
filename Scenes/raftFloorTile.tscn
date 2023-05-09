@@ -1,19 +1,24 @@
-[gd_scene load_steps=3 format=3 uid="uid://cnjnybe3bwt3d"]
+[gd_scene load_steps=4 format=3 uid="uid://cnjnybe3bwt3d"]
 
 [ext_resource type="Script" path="res://Scripts/RaftFloorTile.cs" id="1_sk3rn"]
 [ext_resource type="Texture2D" uid="uid://cw45ramplo6wt" path="res://Sprites/floorTile.png" id="2_y1mpn"]
 
-[node name="RaftFloorTile" type="Node2D" node_paths=PackedStringArray("sprite")]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_1xgu1"]
+size = Vector2(100, 100)
+
+[node name="RaftFloorTile" type="Node2D" node_paths=PackedStringArray("sprite", "hitboxShape")]
 script = ExtResource("1_sk3rn")
 sprite = NodePath("Sprite2D")
+hitboxShape = NodePath("Area2D/CollisionShape2D")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 4
 collision_mask = 3
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
-rotation = 1.56905
-polygon = PackedVector2Array(50, 50, -50, 50, -50, -50, 50, -50)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -0.5)
+shape = SubResource("RectangleShape2D_1xgu1")
+disabled = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 rotation = 1.5708
