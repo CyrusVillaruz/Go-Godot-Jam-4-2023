@@ -1,4 +1,4 @@
-[gd_scene load_steps=11 format=3 uid="uid://dm6hik3ycjhia"]
+[gd_scene load_steps=12 format=3 uid="uid://dm6hik3ycjhia"]
 
 [ext_resource type="PackedScene" uid="uid://cqe3d4c5tvn5s" path="res://Scenes/player.tscn" id="1_6gasb"]
 [ext_resource type="PackedScene" uid="uid://b6ko5jrj2p3ly" path="res://Scenes/raft_tile.tscn" id="4_gs10q"]
@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cnjnybe3bwt3d" path="res://Scenes/raftFloorTile.tscn" id="6_s2iln"]
 [ext_resource type="Script" path="res://Scripts/EnemySpawner.cs" id="8_350i4"]
 [ext_resource type="PackedScene" uid="uid://e01kiu0f1sst" path="res://Scenes/gold.tscn" id="9_dqhrg"]
+[ext_resource type="PackedScene" uid="uid://cbtyfbhvjnwyd" path="res://Scenes/shopkeeper.tscn" id="10_r0twc"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_5rsno"]
 font_size = 100
@@ -60,5 +61,8 @@ waveLabel = NodePath("../MainCamera/WaveLabel")
 
 [node name="Gold" parent="." instance=ExtResource("9_dqhrg")]
 position = Vector2(-402, -159)
+
+[node name="Shopkeeper" parent="." instance=ExtResource("10_r0twc")]
+position = Vector2(908, 129)
 
 [editable path="Raft/Center/RaftCore"]
