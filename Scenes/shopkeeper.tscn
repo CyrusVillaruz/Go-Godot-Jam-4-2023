@@ -1,6 +1,8 @@
-[gd_scene load_steps=4 format=3 uid="uid://cbtyfbhvjnwyd"]
+[gd_scene load_steps=6 format=3 uid="uid://cbtyfbhvjnwyd"]
 
+[ext_resource type="Script" path="res://Scenes/shopkeeper.gd" id="1_802yd"]
 [ext_resource type="Texture2D" uid="uid://culb1dmllsuqq" path="res://Sprites/Sprout Lands - Sprites/characters/Premium Charakter Spritesheet.png" id="1_rgnuy"]
+[ext_resource type="Script" path="res://Scenes/InteractionHitBox.gd" id="2_kdgqt"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_pv62v"]
 size = Vector2(10, 6)
@@ -9,6 +11,7 @@ size = Vector2(10, 6)
 radius = 14.0
 
 [node name="Shopkeeper" type="StaticBody2D"]
+script = ExtResource("1_802yd")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(0, 5)
@@ -20,6 +23,7 @@ hframes = 8
 vframes = 24
 
 [node name="InteractionHitBox" type="Area2D" parent="."]
+script = ExtResource("2_kdgqt")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="InteractionHitBox"]
 shape = SubResource("CircleShape2D_ls1fq")
