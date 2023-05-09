@@ -51,6 +51,8 @@ public partial class EnemySpawner : Node
     // CONSTANT
     [Export] CharacterBody2D player;
     [Export] Label waveLabel;
+    [Export] PackedScene goldResource;
+    float goldSpawnDuration = 1f;
     float minDistanceFromPlayer = 2000;
     RandomNumberGenerator randomGenerator = new RandomNumberGenerator();
     float spawnDuration = 0.2f;
@@ -63,10 +65,13 @@ public partial class EnemySpawner : Node
     int waveCount = 0;
     float spawnTimer;
     float waveLabelFadeTimer;
+    float goldSpawnTimer = 0;
 
 
     // Called when the node enters the scene tree for the first time.
 	public override void _Ready() {
+        goldResource = ResourceLoader.Load<PackedScene>("res://Scenes/gold.tscn");
+
         EnemyData.randomGenerator = randomGenerator;
         randomGenerator.Randomize(); // initialize seed
         spawnTimer = spawnDuration;
@@ -86,10 +91,24 @@ public partial class EnemySpawner : Node
         return randomGlobalPosition;
     }
 
+    Vector2 getRandomGoldPosition() {
+        float randomY = randomGenerator.RandfRange(-minDistanceFromPlayer/2, minDistanceFromPlayer/2);
+        Vector2 randomPosition = new Vector2(-minDistanceFromPlayer, randomY);
+        Vector2 randomGlobalPosition = player.ToGlobal(randomPosition);
+        return randomGlobalPosition;
+    }
+
     void spawnEnemy() {
         Vector2 enemyPosition = getRandomSpawnPosition();
         EnemyData.SpawnRandom(Owner, enemyPosition, player);
         waveEnemyCount--;
+    }
+
+    void spawnGold() {
+        Vector2 goldPosition = getRandomGoldPosition();
+        Node2D newGold = goldResource.Instantiate<Node2D>();
+        newGold.Position = goldPosition;
+        AddChild(newGold);
     }
 
     void startNextWave() {
@@ -108,6 +127,12 @@ public partial class EnemySpawner : Node
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta) {
         float dt = (float) delta;
+
+        goldSpawnTimer -= dt;
+        if (goldSpawnTimer <= 0) {
+            spawnGold();
+            goldSpawnTimer = goldSpawnDuration;
+        }
 
         if (waveLabelFadeTimer > 0) {
             waveLabel.Modulate = new Color(waveLabel.Modulate, Mathf.Lerp(0, 1, waveLabelFadeTimer*2/waveLabelFadeDuration));
@@ -130,5 +155,6 @@ public partial class EnemySpawner : Node
             spawnEnemy();
             spawnTimer = spawnDuration;
         }
+
 	}
 }

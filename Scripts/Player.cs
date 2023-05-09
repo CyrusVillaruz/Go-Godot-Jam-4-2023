@@ -5,6 +5,7 @@ public partial class Player : Character
 {
     [Export] Label stateLabel; //temp for debugging
     [Export] Node2D raft;
+    [Export] Camera2D camera;
 
 
     Vector2 lookDirection;
@@ -15,13 +16,19 @@ public partial class Player : Character
         walkSpeed = 300.0f;
         dashSpeed = 1800.0f;
         dashDuration = 0.2f;
-        maxHealth = 10;
+        maxHealth = 100;
 
 		// VARYING
 		health = maxHealth;
 
 		base._Ready();
 	}
+
+    protected override void onHit(float damage, Vector2 knockbackDirection, float knockbackSpeed=0, float knockbackDuration=0) {
+        base.onHit(damage, knockbackDirection, knockbackSpeed, knockbackDuration);
+
+        camera.Call("startShake", 0.1f, 5, 20);
+    }
 
 
     /// <summary>performs dashing state actions</summary>

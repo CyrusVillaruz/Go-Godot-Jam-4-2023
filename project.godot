@@ -98,6 +98,7 @@ Switch={
 2d_physics/layer_3="Buildings"
 2d_physics/layer_4="Player Weapons"
 2d_physics/layer_5="Enemy Weapons"
+2d_physics/layer_6="Dropped Items"
 
 [rendering]
 

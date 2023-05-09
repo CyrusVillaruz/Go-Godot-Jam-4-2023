@@ -82,7 +82,7 @@ public partial class Character : CharacterBody2D
         healthLabel.Text = health + "/" + maxHealth + "HP";
     }
 
-    void onHit(float damage, Vector2 knockbackDirection, float knockbackSpeed=0, float knockbackDuration=0) {
+    protected virtual void onHit(float damage, Vector2 knockbackDirection, float knockbackSpeed=0, float knockbackDuration=0) {
         health -= damage;
         if (health <= 0) {
             onDeath();
