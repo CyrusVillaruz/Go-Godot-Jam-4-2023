@@ -3,20 +3,20 @@ using System;
 
 public partial class Player : Character
 {
-    [Export] Label stateLabel; //temp for debugging
-    [Export] Node2D raft;
-    [Export] Camera2D camera;
+	[Export] Label stateLabel; //temp for debugging
+	[Export] Node2D raft;
+	[Export] Camera2D camera;
 
 
-    Vector2 lookDirection;
-    bool buildMode = false;
+	Vector2 lookDirection;
+	bool buildMode = false;
 
-    public override void _Ready() {
-        // CONSTANTS
-        walkSpeed = 300.0f;
-        dashSpeed = 1800.0f;
-        dashDuration = 0.2f;
-        maxHealth = 100;
+	public override void _Ready() {
+		// CONSTANTS
+		walkSpeed = 300.0f;
+		dashSpeed = 1800.0f;
+		dashDuration = 0.2f;
+		maxHealth = 100;
 
 		// VARYING
 		health = maxHealth;
@@ -24,82 +24,82 @@ public partial class Player : Character
 		base._Ready();
 	}
 
-    protected override void onHit(float damage, Vector2 knockbackDirection, float knockbackSpeed=0, float knockbackDuration=0) {
-        base.onHit(damage, knockbackDirection, knockbackSpeed, knockbackDuration);
+	protected override void onHit(float damage, Vector2 knockbackDirection, float knockbackSpeed=0, float knockbackDuration=0) {
+		base.onHit(damage, knockbackDirection, knockbackSpeed, knockbackDuration);
 
-        camera.Call("startShake", 0.1f, 5, 20);
-    }
+		camera.Call("startShake", 0.1f, 5, 20);
+	}
 
 
-    /// <summary>performs dashing state actions</summary>
-    protected override void updateDashingState(float dt) {
-        Velocity = currentDirection * Mathf.Lerp(walkSpeed, dashSpeed, currentStateTimer/dashDuration);
+	/// <summary>performs dashing state actions</summary>
+	protected override void updateDashingState(float dt) {
+		Velocity = currentDirection * Mathf.Lerp(walkSpeed, dashSpeed, currentStateTimer/dashDuration);
 
-        currentStateTimer -= dt;
-        if (currentStateTimer <= 0) {
-            currentState = State.idle;
-        }
-    }
-    /// <summary>performs casting state actions</summary>
-    protected override void updateCastingState(float dt) {
-        Velocity = lookDirection * Mathf.Lerp(walkSpeed, currentStateDashSpeed, currentStateTimer/currentStateDuration);
-        
-        currentStateTimer -= dt;
-        if (currentStateTimer <= 0) {
-            currentState = State.idle;
-        }
-    }
+		currentStateTimer -= dt;
+		if (currentStateTimer <= 0) {
+			currentState = State.idle;
+		}
+	}
+	/// <summary>performs casting state actions</summary>
+	protected override void updateCastingState(float dt) {
+		Velocity = lookDirection * Mathf.Lerp(walkSpeed, currentStateDashSpeed, currentStateTimer/currentStateDuration);
+		
+		currentStateTimer -= dt;
+		if (currentStateTimer <= 0) {
+			currentState = State.idle;
+		}
+	}
 
-    protected override void onDeath() {
-        OS.Alert("You Died");
-    }
+	protected override void onDeath() {
+		OS.Alert("You Died");
+	}
 
 	public override void _PhysicsProcess(double delta)
 	{
-        float dt = (float) delta;
-        
-        // GD.Print(Position);
+		float dt = (float) delta;
+		
+		// GD.Print(Position);
 
-        if (currentState != State.casting) {
-            lookDirection = (GetGlobalMousePosition() - Position).Normalized();
-            primaryWeapon.Rotation = lookDirection.Angle() + Mathf.Pi/2;
-        }
+		if (currentState != State.casting) {
+			lookDirection = (GetGlobalMousePosition() - Position).Normalized();
+			primaryWeapon.Rotation = lookDirection.Angle() + Mathf.Pi/2;
+		}
 
-        // Update movement direction
-        Vector2 inputDirection = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
-        if (canWalk()) {
-            if (inputDirection == Vector2.Zero) {
-                currentState = State.idle;
-            }
-            else {
-                currentState = State.walking;
-                currentDirection = inputDirection;
-            }
-        }
+		// Update movement direction
+		Vector2 inputDirection = Input.GetVector("ui_left", "ui_right", "ui_up", "ui_down");
+		if (canWalk()) {
+			if (inputDirection == Vector2.Zero) {
+				currentState = State.idle;
+			}
+			else {
+				currentState = State.walking;
+				currentDirection = inputDirection;
+			}
+		}
 
 		if (canDash() && Input.IsActionJustPressed("Dash")) {
-            currentState = State.dashing;
-            currentStateTimer = dashDuration;
-        }
+			currentState = State.dashing;
+			currentStateTimer = dashDuration;
+		}
 
-        if (canPrimaryAttack() && Input.IsActionJustPressed("Attack")) {
-            primaryWeapon.Call("StartAttack");
-            currentState = State.casting;
-            currentStateDuration = (float) primaryWeapon.Get("animationTime");
-            currentStateTimer = currentStateDuration;
-            currentStateDashSpeed = (float) primaryWeapon.Get("attackDashSpeed");
-        }
+		if (canPrimaryAttack() && Input.IsActionJustPressed("Attack")) {
+			primaryWeapon.Call("StartAttack");
+			currentState = State.casting;
+			currentStateDuration = (float) primaryWeapon.Get("animationTime");
+			currentStateTimer = currentStateDuration;
+			currentStateDashSpeed = (float) primaryWeapon.Get("attackDashSpeed");
+		}
 
-        if (Input.IsActionJustPressed("ToggleBuild")) {
-            raft.Call("ToggleBuild");
-            buildMode = !buildMode;
-        }
+		if (Input.IsActionJustPressed("ToggleBuild")) {
+			raft.Call("ToggleBuild");
+			buildMode = !buildMode;
+		}
 
-        if (buildMode && Input.IsActionJustPressed("PlaceTile")) {
-            raft.Call("PlaceTile");
-        }
+		if (buildMode && Input.IsActionJustPressed("PlaceTile")) {
+			raft.Call("PlaceTile");
+		}
 
-        performStateActions(dt);
+		performStateActions(dt);
 
 		// update state label (for debugging)
 		stateLabel.Text = currentState.ToString(); 
