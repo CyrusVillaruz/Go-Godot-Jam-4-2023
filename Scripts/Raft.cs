@@ -21,9 +21,9 @@ public partial class Raft : Node2D
     [Export] Node2D centerFloorTile;
     [Export] Node2D raftCore;
     Dictionary<String, PackedScene> tileResources = new Dictionary<string, PackedScene>();
-    
     const int maxRaftSize = 21;
     Vector2 raftTileSize = new Vector2(97, 97);
+    const float gridLineThickness = 2;
 
     // VARYING
     List<List<RaftTile>> raftTileGrid = new List<List<RaftTile>>(maxRaftSize);
@@ -63,6 +63,21 @@ public partial class Raft : Node2D
         }
     }
 
+    void drawGridLines() { // absolutely terrible code 
+        float half = raftTileSize.X*(maxRaftSize/2);
+
+        Color white = new Color(1,1,1);
+        Vector2 offset = new Vector2(raftTileSize.X/2, raftTileSize.Y/2);
+        for (float i = -half; i <= half; i += raftTileSize.X) {
+            Vector2 top = ToGlobal(new Vector2(i, half)+offset);
+            Vector2 bottom = ToGlobal(new Vector2(i, -half)+offset);
+            Vector2 right = ToGlobal(new Vector2(half, i)+offset);
+            Vector2 left = ToGlobal(new Vector2(-half, i)+offset);
+            DrawLine(top, bottom, white, gridLineThickness);
+            DrawLine(left, right, white, gridLineThickness);
+        }
+    }
+
     void ToggleBuild() {
         buildMode = !buildMode;
         if (buildMode) {
@@ -71,6 +86,7 @@ public partial class Raft : Node2D
         else {
             newTile.QueueFree();
             newTile = null;
+            QueueRedraw();
         }
     }
 
@@ -152,9 +168,16 @@ public partial class Raft : Node2D
         return false;
     }
 
+    public override void _Draw() {
+        base._Draw();
+        if (!buildMode) {return;}
+        drawGridLines();
+    }
+
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
 	public override void _Process(double delta) {
         if (!buildMode) {return;}
+        QueueRedraw();
         
         mouseGridPosition = mouseToPosition();
         if (isValidPosition(mouseGridPosition)) {
