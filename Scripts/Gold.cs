@@ -6,7 +6,7 @@ public partial class Gold : RigidBody2D
     // CONSTANT
     [Export] Sprite2D sprite;
     const float bobbingRotation = Mathf.Pi;
-    const float bobbingVertical = 100;
+    const float bobbingVertical = 60;
     float positionAnimationDuration = 1.5f;
     float rotationAnimationDuration = 2.5f;
     Vector2 originalPosition;

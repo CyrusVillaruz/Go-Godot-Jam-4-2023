@@ -8,6 +8,8 @@
 radius = 52.4786
 
 [node name="Gold" type="RigidBody2D" node_paths=PackedStringArray("sprite")]
+z_index = -1
+y_sort_enabled = true
 collision_layer = 32
 collision_mask = 0
 gravity_scale = 0.0
@@ -17,7 +19,8 @@ script = ExtResource("1_f0td2")
 sprite = NodePath("Mask/Sprite2D")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 95)
+position = Vector2(0, 80)
+scale = Vector2(0.6, 0.6)
 shape = SubResource("CircleShape2D_p06nv")
 disabled = true
 
@@ -26,5 +29,7 @@ clip_children = 1
 texture = ExtResource("2_j8r1t")
 
 [node name="Sprite2D" type="Sprite2D" parent="Mask"]
-position = Vector2(0, 95)
+position = Vector2(0, 80)
+rotation = -0.785398
+scale = Vector2(0.6, 0.6)
 texture = ExtResource("2_qik7g")
