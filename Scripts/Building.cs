@@ -1,10 +1,13 @@
 using Godot;
 using System;
+using System.Collections.Generic;
 
 public partial class Building : Node2D
 {
     // CONSTANT
     [Export] Sprite2D sprite;
+    [Export] CollisionShape2D damageShape;
+    [Export] CollisionShape2D hitboxShape;
     const float animationDuration = 0.3f;
     Vector2 verticalAnimationDisplacement = new Vector2(0, -70);
     float rotationDisplacement = 120;
@@ -25,6 +28,7 @@ public partial class Building : Node2D
         animationTimer = animationDuration;
 
         sprite.SelfModulate = new Color(sprite.SelfModulate, 1);
+        
     }
 
 	// Called every frame. 'delta' is the elapsed time since the previous frame.
@@ -41,6 +45,9 @@ public partial class Building : Node2D
             if (animationTimer <= 0) {
                 Position = originalPosition;
                 Rotation = originalRotation;
+
+                if (hitboxShape != null) {hitboxShape.Disabled = false;}
+                if (damageShape != null) {damageShape.Disabled = false;}
             }
         }
 	}

@@ -5,7 +5,7 @@
 [sub_resource type="CompressedTexture2D" id="CompressedTexture2D_yte3g"]
 load_path = "res://.godot/imported/icon.svg-218a8f2b3041327d8a5756f3a245f83b.ctex"
 
-[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("healthLabel")]
+[node name="Enemy" type="CharacterBody2D" node_paths=PackedStringArray("healthLabel") groups=["Enemy"]]
 collision_layer = 2
 collision_mask = 7
 motion_mode = 1

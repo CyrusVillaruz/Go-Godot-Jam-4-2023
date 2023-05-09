@@ -1,15 +1,20 @@
-[gd_scene load_steps=9 format=3 uid="uid://dm6hik3ycjhia"]
+[gd_scene load_steps=10 format=3 uid="uid://dm6hik3ycjhia"]
 
 [ext_resource type="PackedScene" uid="uid://cqe3d4c5tvn5s" path="res://Scenes/player.tscn" id="1_6gasb"]
-[ext_resource type="PackedScene" uid="uid://dcmaoeaosiv7k" path="res://Scenes/enemy.tscn" id="2_spov4"]
 [ext_resource type="PackedScene" uid="uid://b6ko5jrj2p3ly" path="res://Scenes/raft_tile.tscn" id="4_gs10q"]
 [ext_resource type="Texture2D" uid="uid://2voxqj382ig1" path="res://Sprites/background.png" id="4_kueys"]
 [ext_resource type="Script" path="res://Scripts/MainCamera.cs" id="4_r8blt"]
 [ext_resource type="Texture2D" uid="uid://cb5087qq8agpm" path="res://Sprites/Milk.png" id="5_ohm2j"]
 [ext_resource type="Script" path="res://Scripts/Raft.cs" id="5_u0wd4"]
 [ext_resource type="PackedScene" uid="uid://cnjnybe3bwt3d" path="res://Scenes/raftFloorTile.tscn" id="6_s2iln"]
+[ext_resource type="Script" path="res://Scripts/EnemySpawner.cs" id="8_350i4"]
 
-[node name="Node2D" type="Node2D"]
+[sub_resource type="LabelSettings" id="LabelSettings_5rsno"]
+font_size = 100
+outline_size = 6
+outline_color = Color(0, 0, 0, 1)
+
+[node name="Node2D" type="Node"]
 
 [node name="background" type="Sprite2D" parent="."]
 scale = Vector2(10, 10)
@@ -28,19 +33,9 @@ raftCore = NodePath("Center/RaftCore")
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("5_ohm2j")
 
-[node name="CollisionShape2D" parent="Raft/Center/RaftCore" index="1"]
-disabled = true
-
-[node name="CollisionShape2D" parent="Raft/Center/RaftCore/Area2D" index="0"]
-disabled = true
-
 [node name="Player" parent="." node_paths=PackedStringArray("raft") instance=ExtResource("1_6gasb")]
 position = Vector2(243, 157)
 raft = NodePath("../Raft")
-
-[node name="Enemy" parent="." node_paths=PackedStringArray("PlayerBody") instance=ExtResource("2_spov4")]
-position = Vector2(-606, -194)
-PlayerBody = NodePath("../Player")
 
 [node name="MainCamera" type="Camera2D" parent="." node_paths=PackedStringArray("playerBody")]
 position = Vector2(169, 26)
@@ -48,5 +43,17 @@ zoom = Vector2(0.75, 0.75)
 position_smoothing_speed = 3.0
 script = ExtResource("4_r8blt")
 playerBody = NodePath("../Player")
+
+[node name="WaveLabel" type="Label" parent="MainCamera"]
+offset_left = -169.0
+offset_top = -26.0
+offset_right = 179.0
+offset_bottom = 114.0
+label_settings = SubResource("LabelSettings_5rsno")
+
+[node name="EnemySpawner" type="Node" parent="." node_paths=PackedStringArray("player", "waveLabel")]
+script = ExtResource("8_350i4")
+player = NodePath("../Player")
+waveLabel = NodePath("../MainCamera/WaveLabel")
 
 [editable path="Raft/Center/RaftCore"]
